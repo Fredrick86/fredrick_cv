@@ -3,19 +3,199 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fredrick's Application</title>
-<meta http-equiv="refresh" content="1; url=https://claude.ai/artifact/HoUndwtYHELFuhAGXpRhU9">
+<title>Fredrick Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
-         background: #ffeef3; color: #3b1a2a; font-family: system-ui, sans-serif; text-align: center; padding: 16px; }
-  a { color: #d6336c; font-weight: 700; }
+/* Layout idea: a love-letter style job application on rose paper, with drifting hearts behind it and a decision panel at the end. */
+:root {
+  --bg: #ffeef3;
+  --paper: #fffafb;
+  --ink: #3b1a2a;
+  --muted: #7d5568;
+  --accent: #d6336c;
+  --stamp: #c2255c;
+  --line: #f3c9d8;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-script: "Dancing Script", "Brush Script MT", cursive;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #240d19; --paper: #34172a; --ink: #ffe9f1; --muted: #d1a6ba;
+    --accent: #ff7aa8; --stamp: #ff8fb4; --line: #5a2a45; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #240d19; --paper: #34172a; --ink: #ffe9f1; --muted: #d1a6ba;
+  --accent: #ff7aa8; --stamp: #ff8fb4; --line: #5a2a45; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding: 24px 16px 56px; position: relative; overflow-x: hidden;
+}
+.floaters { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.floaters span { position: absolute; bottom: -40px; opacity: .55; font-size: 22px; }
+@media (prefers-reduced-motion: no-preference) {
+  .floaters span { animation: rise linear infinite; }
+  @keyframes rise { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-115vh) rotate(25deg); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floaters span { bottom: auto; }
+}
+.sheet {
+  max-width: 720px; margin: 0 auto; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 18px;
+  padding: 40px 28px 34px; position: relative; z-index: 1;
+  box-shadow: 0 12px 34px rgba(214, 51, 108, .14);
+}
+.blooms { text-align: center; font-size: 26px; letter-spacing: 6px; margin: 0 0 10px; }
+.stamp {
+  position: absolute; top: 20px; right: 20px;
+  border: 2px solid var(--stamp); color: var(--stamp);
+  padding: 2px 10px; border-radius: 6px; font-weight: 700;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  transform: rotate(6deg);
+}
+.role { font-family: var(--font-script); color: var(--accent); font-size: 24px; margin: 0 0 4px; text-align: center; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(38px, 10vw, 60px); line-height: 1.05; margin: 0 0 10px; text-align: center; text-wrap: balance; }
+.sub { color: var(--muted); margin: 0 auto 8px; text-align: center; max-width: 50ch; }
+.meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 20px; color: var(--muted); font-size: 14px; margin: 16px 0 0; padding: 0; list-style: none; }
+.meta b { color: var(--ink); font-weight: 500; }
+.divider { text-align: center; color: var(--accent); margin: 26px 0 0; letter-spacing: 8px; }
+section { margin-top: 30px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 25px; margin: 0 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); text-wrap: balance; }
+p { margin: 0 0 12px; max-width: 65ch; }
+ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+li { max-width: 65ch; }
+.list li { padding-left: 26px; position: relative; }
+.list li::before { content: "\2665"; position: absolute; left: 0; top: 0; color: var(--accent); }
+.job { display: grid; gap: 2px; margin-bottom: 14px; }
+.job strong { font-weight: 700; }
+.job span { color: var(--muted); font-size: 15px; }
+.bars { display: grid; gap: 12px; }
+.bar { display: grid; gap: 4px; }
+.bar header { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.bar header span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.track { height: 9px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.fill { height: 100%; background: linear-gradient(90deg, #ff8fb4, var(--accent)); border-radius: 99px; }
+.quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; color: var(--muted); font-style: italic; max-width: 60ch; }
+.decision { margin-top: 36px; background: var(--bg); border: 1px dashed var(--accent); border-radius: 14px; padding: 24px 20px; text-align: center; }
+.decision h2 { border: 0; padding: 0; margin-bottom: 6px; }
+.decision p { margin-left: auto; margin-right: auto; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
+button {
+  font: inherit; font-weight: 700; cursor: pointer; border-radius: 12px;
+  padding: 12px 20px; border: 2px solid var(--accent);
+  background: var(--accent); color: #fff;
+}
+button.alt { background: transparent; color: var(--accent); }
+button:focus-visible { outline: 3px solid var(--stamp); outline-offset: 2px; }
+#reply { margin-top: 16px; min-height: 1.6em; font-weight: 500; }
+footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 26px; position: relative; z-index: 1; }
+@media (max-width: 480px) { .sheet { padding: 30px 18px; } .stamp { position: static; display: block; width: max-content; margin: 0 auto 12px; transform: none; } }
+@media (prefers-reduced-motion: no-preference) { button { transition: transform .15s; } button:hover { transform: translateY(-2px); } }
 </style>
 </head>
 <body>
-  <p>💌 Opening Fredrick's application...<br>
-  If nothing happens, <a href="https://claude.ai/artifact/HoUndwtYHELFuhAGXpRhU9">tap here</a>.</p>
-  <script>
-    window.location.replace("https://claude.ai/artifact/HoUndwtYHELFuhAGXpRhU9");
-  </script>
+<div class="floaters" aria-hidden="true" id="floaters"></div>
+<main class="sheet">
+  <div class="stamp">Awaiting your heart</div>
+  <p class="blooms" aria-hidden="true">🌹 🌷 🌸 🌷 🌹</p>
+  <p class="role">An application for: Boyfriend, full-time, long-term 💌</p>
+  <h1>Fredrick</h1>
+  <p class="sub">Cybersecurity student, builder of things, and a very motivated candidate 💕</p>
+  <ul class="meta">
+    <li><b>Status:</b> Available immediately</li>
+    <li><b>Location:</b> Wherever you are, within reason</li>
+    <li><b>Notice period:</b> None</li>
+  </ul>
+  <p class="divider" aria-hidden="true">❤ ❤ ❤</p>
+
+  <section>
+    <h2>🌹 Career objective</h2>
+    <p>To secure the position of your boyfriend, make you smile every day, and grow with you over time. I take the role seriously, but I don't take myself seriously.</p>
+  </section>
+
+  <section>
+    <h2>💘 Key skills</h2>
+    <div class="bars">
+      <div class="bar"><header><span>Making you laugh</span><span>95%</span></header><div class="track"><div class="fill" style="width:95%"></div></div></div>
+      <div class="bar"><header><span>Listening without checking my phone</span><span>90%</span></header><div class="track"><div class="fill" style="width:90%"></div></div></div>
+      <div class="bar"><header><span>Fixing laptops and Wi-Fi on demand</span><span>100%</span></header><div class="track"><div class="fill" style="width:100%"></div></div></div>
+      <div class="bar"><header><span>Replying to messages quickly</span><span>80%, improving</span></header><div class="track"><div class="fill" style="width:80%"></div></div></div>
+      <div class="bar"><header><span>Respect and kindness</span><span>100%</span></header><div class="track"><div class="fill" style="width:100%"></div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🌷 Experience</h2>
+    <div class="job"><strong>Reliable friend</strong><span>Several years, zero complaints on file</span></div>
+    <div class="job"><strong>Student developer</strong><span>Ongoing. Builds projects, solves problems, and does not quit after the first error message.</span></div>
+  </section>
+
+  <section>
+    <h2>📚 Education</h2>
+    <p>Studying Cybersecurity. Still learning, especially about you. Your heart is the one system I'd never try to break into 💖</p>
+  </section>
+
+  <section>
+    <h2>🌸 Strengths and weaknesses</h2>
+    <ul class="list">
+      <li><b>Strengths:</b> honest, loyal, respectful, ambitious, a good listener.</li>
+      <li><b>Weakness:</b> loses track of time while coding. Will pause the code for you.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💐 Why hire me?</h2>
+    <p>Because I'll bring effort, honesty, and good vibes every day, and I promise never to push to production on a Friday night when we have plans.</p>
+  </section>
+
+  <section>
+    <h2>💌 References</h2>
+    <p class="quote">"He is great." Mum. Other references available on request.</p>
+  </section>
+
+  <div class="decision">
+    <p class="blooms" aria-hidden="true">🌹💕🌹</p>
+    <h2>Your decision</h2>
+    <p>I declare that everything above is true, and I look forward to an interview, preferably on a nature walk 🌿</p>
+    <div class="actions">
+      <button type="button" id="yes">Schedule an interview 💞</button>
+      <button type="button" id="maybe" class="alt">Keep my CV on file 💗</button>
+    </div>
+    <p id="reply" aria-live="polite"></p>
+  </div>
+</main>
+<footer>Made with love 💕 and a little Python 🌹</footer>
+<script>
+(function () {
+  var icons = ["💖", "🌸", "💕", "🌷", "❤️", "🌹", "💗"];
+  var box = document.getElementById("floaters");
+  for (var i = 0; i < 14; i++) {
+    var s = document.createElement("span");
+    s.textContent = icons[i % icons.length];
+    s.style.left = (4 + (i * 7) % 92) + "%";
+    s.style.fontSize = (16 + (i * 5) % 18) + "px";
+    s.style.animationDuration = (14 + (i * 3) % 12) + "s";
+    s.style.animationDelay = "-" + ((i * 2) % 16) + "s";
+    s.style.bottom = (-40 + (i * 6) % 100) + "px";
+    box.appendChild(s);
+  }
+  var reply = document.getElementById("reply");
+  document.getElementById("yes").addEventListener("click", function () {
+    reply.textContent = "Application accepted 💖 Message Fredrick to pick a time. He has already picked out his walking shoes.";
+  });
+  document.getElementById("maybe").addEventListener("click", function () {
+    reply.textContent = "Noted 💗 Your CV is saved, and Fredrick will keep being a great candidate in the meantime.";
+  });
+})();
+</script>
 </body>
 </html>
